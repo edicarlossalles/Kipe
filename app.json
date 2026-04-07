@@ -1,0 +1,16 @@
+{
+  "expo": {
+    "name": "Kipo",
+    "slug": "kipo",
+    "version": "1.0.0",
+    "platforms": ["android"],
+    "android": {
+      "package": "com.edicarlossales.kipo"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "6220c90b-fd8f-458e-ad23-cc9d50a2a19b"
+      }
+    }
+  }
+}

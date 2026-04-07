@@ -1,34 +1,24 @@
-// src/context/FinanceContext.tsx
-
 import React, { createContext, useContext, useEffect, useState } from 'react';
-import {
-  collection, query, where, orderBy,
-  onSnapshot, addDoc, serverTimestamp, Timestamp,
-} from 'firebase/firestore';
+import { collection, query, where, orderBy, onSnapshot, addDoc, serverTimestamp, Timestamp } from 'firebase/firestore';
 import { db } from '../services/firebase/config';
 import { useAuth } from './AuthContext';
-import {
-  escutarEventosEdyRun,
-  marcarEventoProcessado,
-  mapearCategoriaEdyRun,
-  EdyRunEvent,
-} from '../services/edyrun/edyrunIntegration';
+import { escutarEventosEdyRun, marcarEventoProcessado, mapearCategoriaEdyRun, EdyRunEvent } from '../services/edyrun/edyrunIntegration';
 
 export interface Transacao {
   id?: string;
   uid: string;
   tipo: 'receita' | 'despesa';
-  valor: number;           // em centavos
+  valor: number;
   descricao: string;
   categoria: string;
   data: Timestamp | Date;
-  origem: 'kipo' | 'edyrun'; // de onde veio a transação
+  origem: 'kipo' | 'edyrun';
   criadoEm: Timestamp | Date;
 }
 
 interface FinanceContextData {
   transacoes: Transacao[];
-  saldoDisponivel: number;      // em centavos
+  saldoDisponivel: number;
   totalReceitas: number;
   totalDespesas: number;
   loading: boolean;
@@ -42,13 +32,11 @@ export function FinanceProvider({ children }: { children: React.ReactNode }) {
   const [transacoes, setTransacoes] = useState<Transacao[]>([]);
   const [loading, setLoading] = useState(true);
 
-  // Escuta transações do Kipo
   useEffect(() => {
     if (!user) return;
 
-    const ref = collection(db, 'transacoes_kipo');
     const q = query(
-      ref,
+      collection(db, 'transacoes_kipo'),
       where('uid', '==', user.uid),
       orderBy('data', 'desc')
     );
@@ -65,24 +53,19 @@ export function FinanceProvider({ children }: { children: React.ReactNode }) {
     return unsubscribe;
   }, [user]);
 
-  // Escuta eventos do EdyRun e converte em transações
   useEffect(() => {
     if (!user) return;
-
     const unsubscribe = escutarEventosEdyRun(user.uid, async (eventos) => {
       for (const evento of eventos) {
         await processarEventoEdyRun(evento);
       }
     });
-
     return unsubscribe;
   }, [user]);
 
   async function processarEventoEdyRun(evento: EdyRunEvent) {
     if (!user || !evento.id) return;
-
     const tipo = evento.tipo === 'despesa_registrada' ? 'despesa' : 'receita';
-
     await addDoc(collection(db, 'transacoes_kipo'), {
       uid: user.uid,
       tipo,
@@ -93,7 +76,6 @@ export function FinanceProvider({ children }: { children: React.ReactNode }) {
       origem: 'edyrun',
       criadoEm: serverTimestamp(),
     });
-
     await marcarEventoProcessado(evento.id);
   }
 
@@ -107,27 +89,12 @@ export function FinanceProvider({ children }: { children: React.ReactNode }) {
     });
   }
 
-  const totalReceitas = transacoes
-    .filter((t) => t.tipo === 'receita')
-    .reduce((acc, t) => acc + t.valor, 0);
-
-  const totalDespesas = transacoes
-    .filter((t) => t.tipo === 'despesa')
-    .reduce((acc, t) => acc + t.valor, 0);
-
+  const totalReceitas = transacoes.filter((t) => t.tipo === 'receita').reduce((acc, t) => acc + t.valor, 0);
+  const totalDespesas = transacoes.filter((t) => t.tipo === 'despesa').reduce((acc, t) => acc + t.valor, 0);
   const saldoDisponivel = totalReceitas - totalDespesas;
 
   return (
-    <FinanceContext.Provider
-      value={{
-        transacoes,
-        saldoDisponivel,
-        totalReceitas,
-        totalDespesas,
-        loading,
-        adicionarTransacao,
-      }}
-    >
+    <FinanceContext.Provider value={{ transacoes, saldoDisponivel, totalReceitas, totalDespesas, loading, adicionarTransacao }}>
       {children}
     </FinanceContext.Provider>
   );
