@@ -25,10 +25,10 @@ function formatBRLCurto(centavos: number): string {
 }
 
 export default function GraficoRosca({ categorias, totalDespesas, mesLabel }: Props) {
-  const raio = 28;
+  const raio = 34;
   const circunferencia = 2 * Math.PI * raio;
-  const cx = 38;
-  const cy = 38;
+  const cx = 46;
+  const cy = 46;
 
   // Calcular segmentos da rosca
   const totalValor = categorias.reduce((a, c) => a + c.valor, 0) || 1;
@@ -51,24 +51,24 @@ export default function GraficoRosca({ categorias, totalDespesas, mesLabel }: Pr
 
       {/* Rosca + legenda */}
       <View style={styles.roncaRow}>
-        <Svg width={76} height={76} viewBox="0 0 76 76">
-          <Circle cx={cx} cy={cy} r={raio} fill="none" stroke="#1A1A2E" strokeWidth={11} />
+        <Svg width={92} height={92} viewBox="0 0 92 92">
+          <Circle cx={cx} cy={cy} r={raio} fill="none" stroke="#1A1A2E" strokeWidth={13} />
           {segmentos.map((seg, i) => (
             <Circle
               key={i}
               cx={cx} cy={cy} r={raio}
               fill="none"
               stroke={seg.cor}
-              strokeWidth={11}
+              strokeWidth={13}
               strokeDasharray={`${seg.dash} ${circunferencia - seg.dash}`}
               strokeDashoffset={-seg.offset}
               strokeLinecap="round"
             />
           ))}
-          <SvgText x={cx} y={cy - 4} textAnchor="middle" fill="#F0F0FF" fontSize={7} fontWeight="700">
+          <SvgText x={cx} y={cy - 5} textAnchor="middle" fill="#F0F0FF" fontSize={9} fontWeight="700">
             {formatBRLCurto(totalDespesas)}
           </SvgText>
-          <SvgText x={cx} y={cy + 7} textAnchor="middle" fill="#5A5A80" fontSize={6}>
+          <SvgText x={cx} y={cy + 10} textAnchor="middle" fill="#5A5A80" fontSize={7}>
             total
           </SvgText>
         </Svg>
@@ -128,7 +128,7 @@ const styles = StyleSheet.create({
     borderRadius: 18,
     borderWidth: 1,
     borderColor: '#252545',
-    padding: 18,
+    padding: 20,
   },
   header: {
     flexDirection: 'row',
@@ -136,7 +136,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginBottom: 14,
   },
-  titulo: { fontSize: 13, fontWeight: '600', color: '#F0F0FF' },
+  titulo: { fontSize: 17, fontWeight: '700', color: '#F0F0FF' },
   badge: {
     backgroundColor: '#1A1A2E',
     paddingHorizontal: 10,
@@ -145,23 +145,23 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#252545',
   },
-  badgeText: { fontSize: 10, color: '#5A5A80' },
-  roncaRow: { flexDirection: 'row', alignItems: 'center', gap: 16, marginBottom: 16 },
-  legenda: { flex: 1, gap: 6 },
+  badgeText: { fontSize: 11, color: '#7A7AA2' },
+  roncaRow: { flexDirection: 'row', alignItems: 'center', gap: 18, marginBottom: 18 },
+  legenda: { flex: 1, gap: 8 },
   legendaItem: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
-  legendaEsq: { flexDirection: 'row', alignItems: 'center', gap: 5 },
-  legendaDot: { width: 7, height: 7, borderRadius: 2 },
-  legendaNome: { fontSize: 10, color: '#9090BB' },
-  legendaPerc: { fontSize: 10, fontWeight: '600', color: '#F0F0FF' },
-  progresso: { borderTopWidth: 1, borderTopColor: '#1E1E38', paddingTop: 14, gap: 10 },
+  legendaEsq: { flexDirection: 'row', alignItems: 'center', gap: 7 },
+  legendaDot: { width: 9, height: 9, borderRadius: 3 },
+  legendaNome: { fontSize: 12, color: '#C5C5E2', fontWeight: '600' },
+  legendaPerc: { fontSize: 12, fontWeight: '700', color: '#F0F0FF' },
+  progresso: { borderTopWidth: 1, borderTopColor: '#1E1E38', paddingTop: 16, gap: 12 },
   progressoHeader: { marginBottom: 2 },
-  progressoTitulo: { fontSize: 10, color: '#5A5A80', letterSpacing: 0.5, textTransform: 'uppercase' },
-  progressoItem: { gap: 5 },
+  progressoTitulo: { fontSize: 11, color: '#7A7AA2', letterSpacing: 0.5, textTransform: 'uppercase', fontWeight: '600' },
+  progressoItem: { gap: 6 },
   progressoLabelRow: { flexDirection: 'row', justifyContent: 'space-between' },
-  progressoNome: { fontSize: 11, color: '#9090BB' },
-  progressoValor: { fontSize: 11, color: '#F0F0FF' },
+  progressoNome: { fontSize: 13, color: '#C5C5E2', fontWeight: '600' },
+  progressoValor: { fontSize: 12, color: '#F0F0FF' },
   ultrapassado: { color: '#FF5C5C' },
-  barraFundo: { height: 5, backgroundColor: '#1A1A2E', borderRadius: 3, overflow: 'hidden' },
-  barraPreenchida: { height: '100%', borderRadius: 3 },
-  alertaTexto: { fontSize: 9, color: '#FF5C5C' },
+  barraFundo: { height: 8, backgroundColor: '#1A1A2E', borderRadius: 4, overflow: 'hidden' },
+  barraPreenchida: { height: '100%', borderRadius: 4 },
+  alertaTexto: { fontSize: 10, color: '#FF5C5C', fontWeight: '600' },
 });

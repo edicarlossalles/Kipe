@@ -1,0 +1,36 @@
+{
+  "indexes": [
+    {
+      "collectionGroup": "open_finance_connections",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "uid", "order": "ASCENDING" },
+        { "fieldPath": "createdAt", "order": "DESCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "open_finance_sync_jobs",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "uid", "order": "ASCENDING" },
+        { "fieldPath": "createdAt", "order": "DESCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "open_finance_connections",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "providerItemId", "order": "ASCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "transacoes_kipo",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "uid", "order": "ASCENDING" },
+        { "fieldPath": "data", "order": "DESCENDING" }
+      ]
+    }
+  ],
+  "fieldOverrides": []
+}

@@ -50,9 +50,9 @@ export default function AcoesRapidas({ onLancar, onRelatorio, onMetas, onCarteir
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
-    gap: 8,
+    gap: 10,
     paddingHorizontal: 16,
-    marginBottom: 16,
+    marginBottom: 18,
   },
   btn: {
     flex: 1,
@@ -60,16 +60,17 @@ const styles = StyleSheet.create({
     borderRadius: 14,
     borderWidth: 1,
     borderColor: '#252545',
-    padding: 12,
+    paddingVertical: 14,
+    paddingHorizontal: 12,
     alignItems: 'center',
-    gap: 6,
+    gap: 8,
   },
   iconBox: {
-    width: 32,
-    height: 32,
-    borderRadius: 10,
+    width: 38,
+    height: 38,
+    borderRadius: 12,
     justifyContent: 'center',
     alignItems: 'center',
   },
-  label: { fontSize: 10, color: '#9090BB' },
+  label: { fontSize: 11, color: '#B2B2D6', fontWeight: '600' },
 });

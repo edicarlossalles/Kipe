@@ -41,6 +41,7 @@ function formatData(data: any): string {
 function ItemTransacao({ t }: { t: Transacao }) {
   const isReceita  = t.tipo === 'receita';
   const isEdyRun   = t.origem === 'edyrun';
+  const isOpenFinance = t.origem === 'open_finance';
   const corValor   = isReceita ? '#00D4AA' : '#FF5C5C';
   const corIcon    = isReceita ? '#00D4AA' : '#FF5C5C';
   const fundoIcon  = isReceita ? '#0D2A1F' : '#2A1010';
@@ -48,7 +49,7 @@ function ItemTransacao({ t }: { t: Transacao }) {
   const descricao  = t.descricao.replace('[EdyRun] ', '');
 
   return (
-    <View style={[styles.item, isEdyRun && styles.itemEdyRun]}>
+    <View style={[styles.item, isEdyRun && styles.itemEdyRun, isOpenFinance && styles.itemOpenFinance]}>
       <View style={[styles.iconBox, { backgroundColor: fundoIcon }]}>
         <Ionicons name={icone} size={13} color={corIcon} />
       </View>
@@ -58,6 +59,11 @@ function ItemTransacao({ t }: { t: Transacao }) {
           {isEdyRun && (
             <View style={styles.badgeEdyRun}>
               <Text style={styles.badgeEdyRunText}>EdyRun</Text>
+            </View>
+          )}
+          {isOpenFinance && (
+            <View style={styles.badgeBanco}>
+              <Text style={styles.badgeBancoText}>Banco</Text>
             </View>
           )}
         </View>
@@ -118,16 +124,16 @@ export default function ListaTransacoes({ transacoes, filtro, onFiltroChange, on
 }
 
 const styles = StyleSheet.create({
-  container: { paddingHorizontal: 16, paddingBottom: 32 },
+  container: { paddingHorizontal: 16, paddingBottom: 36 },
   header: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 },
-  titulo: { fontSize: 13, fontWeight: '600', color: '#F0F0FF' },
-  verTodas: { fontSize: 11, color: '#6C63FF' },
-  filtros: { flexDirection: 'row', gap: 6, marginBottom: 12 },
+  titulo: { fontSize: 16, fontWeight: '700', color: '#F0F0FF' },
+  verTodas: { fontSize: 12, color: '#6C63FF', fontWeight: '600' },
+  filtros: { flexDirection: 'row', gap: 8, marginBottom: 14 },
   filtroBtn: {
     backgroundColor: '#141428',
     borderRadius: 20,
-    paddingVertical: 5,
-    paddingHorizontal: 14,
+    paddingVertical: 7,
+    paddingHorizontal: 15,
     borderWidth: 1,
     borderColor: '#252545',
   },
@@ -135,24 +141,25 @@ const styles = StyleSheet.create({
     backgroundColor: '#6C63FF',
     borderColor: '#6C63FF',
   },
-  filtroTexto: { fontSize: 10, color: '#5A5A80' },
-  filtroTextoAtivo: { fontSize: 10, color: '#fff', fontWeight: '600' },
-  lista: { gap: 8 },
+  filtroTexto: { fontSize: 11, color: '#7A7AA2' },
+  filtroTextoAtivo: { fontSize: 11, color: '#fff', fontWeight: '700' },
+  lista: { gap: 10 },
   item: {
     backgroundColor: '#141428',
-    borderRadius: 12,
+    borderRadius: 14,
     borderWidth: 1,
     borderColor: '#252545',
-    padding: 11,
+    padding: 13,
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 11,
+    gap: 12,
   },
   itemEdyRun: { borderColor: '#00D4AA22' },
-  iconBox: { width: 34, height: 34, borderRadius: 10, justifyContent: 'center', alignItems: 'center', flexShrink: 0 },
+  itemOpenFinance: { borderColor: '#6C63FF33' },
+  iconBox: { width: 38, height: 38, borderRadius: 12, justifyContent: 'center', alignItems: 'center', flexShrink: 0 },
   itemInfo: { flex: 1, minWidth: 0 },
-  itemTituloRow: { flexDirection: 'row', alignItems: 'center', gap: 5, marginBottom: 2 },
-  itemDesc: { fontSize: 12, fontWeight: '500', color: '#F0F0FF', flex: 1 },
+  itemTituloRow: { flexDirection: 'row', alignItems: 'center', gap: 6, marginBottom: 3 },
+  itemDesc: { fontSize: 13, fontWeight: '600', color: '#F0F0FF', flex: 1 },
   badgeEdyRun: {
     backgroundColor: '#00D4AA22',
     borderWidth: 1,
@@ -162,8 +169,17 @@ const styles = StyleSheet.create({
     paddingVertical: 1,
   },
   badgeEdyRunText: { fontSize: 8, color: '#00D4AA' },
-  itemMeta: { fontSize: 10, color: '#5A5A80' },
-  itemValor: { fontSize: 12, fontWeight: '700', flexShrink: 0 },
+  badgeBanco: {
+    backgroundColor: '#6C63FF22',
+    borderWidth: 1,
+    borderColor: '#6C63FF44',
+    borderRadius: 4,
+    paddingHorizontal: 5,
+    paddingVertical: 1,
+  },
+  badgeBancoText: { fontSize: 8, color: '#8B85FF' },
+  itemMeta: { fontSize: 11, color: '#7A7AA2' },
+  itemValor: { fontSize: 13, fontWeight: '700', flexShrink: 0 },
   vazio: { alignItems: 'center', paddingVertical: 32, gap: 8 },
-  vazioTexto: { fontSize: 12, color: '#3A3A5A' },
+  vazioTexto: { fontSize: 13, color: '#3A3A5A' },
 });

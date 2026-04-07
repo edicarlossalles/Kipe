@@ -33,11 +33,15 @@ export default function LoginScreen() {
       const mensagens: Record<string, string> = {
         'auth/user-not-found': 'Usuário não encontrado.',
         'auth/wrong-password': 'Senha incorreta.',
+        'auth/invalid-credential': 'E-mail ou senha inválidos.',
         'auth/email-already-in-use': 'E-mail já cadastrado.',
         'auth/weak-password': 'Senha muito fraca. Use ao menos 6 caracteres.',
         'auth/invalid-email': 'E-mail inválido.',
+        'auth/operation-not-allowed': 'Login por e-mail e senha não está habilitado no Firebase.',
+        'auth/network-request-failed': 'Falha de conexão. Verifique sua internet.',
+        'auth/too-many-requests': 'Muitas tentativas. Aguarde e tente novamente.',
       };
-      Alert.alert('Erro', mensagens[e.code] ?? 'Tente novamente.');
+      Alert.alert('Erro', mensagens[e.code] ?? e?.message ?? 'Tente novamente.');
     } finally {
       setCarregando(false);
     }
@@ -47,7 +51,7 @@ export default function LoginScreen() {
     <SafeAreaView style={styles.safe}>
       <KeyboardAvoidingView
         style={{ flex: 1 }}
-        behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       >
         <ScrollView
           contentContainerStyle={styles.scroll}
@@ -171,7 +175,7 @@ export default function LoginScreen() {
 
 const styles = StyleSheet.create({
   safe: { flex: 1, backgroundColor: '#0F0F1A' },
-  scroll: { flexGrow: 1 },
+  scroll: { flexGrow: 1, paddingBottom: 32 },
   header: {
     paddingTop: 60,
     paddingBottom: 48,

@@ -97,13 +97,6 @@ export default function HomeScreen({ navigation }: any) {
         />
       </ScrollView>
 
-      <TouchableOpacity
-        style={styles.fab}
-        onPress={() => navigation.navigate('Launch')}
-        activeOpacity={0.85}
-      >
-        <Ionicons name="add" size={28} color="#fff" />
-      </TouchableOpacity>
     </SafeAreaView>
   );
 }
@@ -129,12 +122,4 @@ const styles = StyleSheet.create({
     justifyContent: 'center', alignItems: 'center',
   },
   avatarTexto: { fontSize: 12, fontWeight: '700', color: '#fff' },
-  fab: {
-    position: 'absolute', bottom: 24, right: 24,
-    width: 56, height: 56, borderRadius: 28,
-    backgroundColor: '#6C63FF',
-    justifyContent: 'center', alignItems: 'center',
-    shadowColor: '#6C63FF', shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.4, shadowRadius: 12, elevation: 8,
-  },
 });

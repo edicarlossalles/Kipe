@@ -1,0 +1,16 @@
+{
+  "name": "kipo-open-finance-backend",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "tsc -p tsconfig.json"
+  },
+  "dependencies": {
+    "firebase-admin": "^13.5.0"
+  },
+  "devDependencies": {
+    "@types/node": "^24.7.2",
+    "@vercel/node": "^5.3.24",
+    "typescript": "^5.9.3"
+  }
+}

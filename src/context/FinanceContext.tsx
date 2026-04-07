@@ -12,7 +12,7 @@ export interface Transacao {
   descricao: string;
   categoria: string;
   data: Timestamp | Date;
-  origem: 'kipo' | 'edyrun';
+  origem: 'kipo' | 'edyrun' | 'open_finance';
   criadoEm: Timestamp | Date;
 }
 
@@ -33,7 +33,13 @@ export function FinanceProvider({ children }: { children: React.ReactNode }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (!user) return;
+    if (!user) {
+      setTransacoes([]);
+      setLoading(false);
+      return;
+    }
+
+    setLoading(true);
 
     const q = query(
       collection(db, 'transacoes_kipo'),
@@ -80,7 +86,10 @@ export function FinanceProvider({ children }: { children: React.ReactNode }) {
   }
 
   async function adicionarTransacao(t: Omit<Transacao, 'id' | 'uid' | 'criadoEm'>) {
-    if (!user) return;
+    if (!user) {
+      throw new Error('Usuário não autenticado.');
+    }
+
     await addDoc(collection(db, 'transacoes_kipo'), {
       ...t,
       uid: user.uid,

@@ -12,6 +12,9 @@ import WalletScreen from '../screens/Wallet/WalletScreen';
 import ProjectionScreen from '../screens/Projection/ProjectionScreen';
 import LaunchScreen from '../screens/Launch/LaunchScreen';
 import LoginScreen from '../screens/Auth/LoginScreen';
+import ProfileScreen from '../screens/Profile/ProfileScreen';
+import GoalsScreen from '../screens/Goals/GoalsScreen';
+import OpenFinanceScreen from '../screens/OpenFinance/OpenFinanceScreen';
 import { useAuth } from '../context/AuthContext';
 import { View, ActivityIndicator } from 'react-native';
 
@@ -79,6 +82,21 @@ export default function AppNavigator() {
             name="Launch"
             component={LaunchScreen}
             options={{ presentation: 'modal' }}
+          />
+          <Stack.Screen
+            name="Profile"
+            component={ProfileScreen}
+            options={{ presentation: 'card' }}
+          />
+          <Stack.Screen
+            name="Goals"
+            component={GoalsScreen}
+            options={{ presentation: 'card' }}
+          />
+          <Stack.Screen
+            name="OpenFinance"
+            component={OpenFinanceScreen}
+            options={{ presentation: 'card' }}
           />
         </>
       ) : (

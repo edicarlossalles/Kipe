@@ -1,0 +1,83 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function signedIn() {
+      return request.auth != null;
+    }
+
+    function ownsUid(uid) {
+      return signedIn() && request.auth.uid == uid;
+    }
+
+    match /open_finance_connection_requests/{requestId} {
+      allow create: if signedIn()
+        && request.resource.data.uid == request.auth.uid
+        && request.resource.data.provider == 'pluggy'
+        && request.resource.data.status == 'pending';
+      allow read: if ownsUid(resource.data.uid);
+      allow update, delete: if false;
+    }
+
+    match /open_finance_connections/{connectionId} {
+      allow read: if ownsUid(resource.data.uid);
+      allow create, update, delete: if false;
+    }
+
+    match /open_finance_sync_jobs/{jobId} {
+      allow create: if signedIn()
+        && request.resource.data.uid == request.auth.uid
+        && request.resource.data.status == 'pending';
+      allow read: if ownsUid(resource.data.uid);
+      allow update, delete: if false;
+    }
+
+    match /open_finance_accounts/{accountId} {
+      allow read: if ownsUid(resource.data.uid);
+      allow write: if false;
+    }
+
+    match /open_finance_transactions_raw/{transactionId} {
+      allow read: if ownsUid(resource.data.uid);
+      allow write: if false;
+    }
+
+    match /open_finance_webhook_events/{eventId} {
+      allow read, write: if false;
+    }
+
+    match /transacoes_kipo/{transactionId} {
+      allow read: if ownsUid(resource.data.uid);
+      allow create: if signedIn() && request.resource.data.uid == request.auth.uid;
+      allow update, delete: if ownsUid(resource.data.uid);
+    }
+
+    match /metas_kipo/{metaId} {
+      allow read: if ownsUid(resource.data.uid);
+      allow create: if signedIn() && request.resource.data.uid == request.auth.uid;
+      allow update, delete: if ownsUid(resource.data.uid);
+    }
+
+    match /categorias_kipo/{categoriaId} {
+      allow read: if ownsUid(resource.data.uid);
+      allow create: if signedIn() && request.resource.data.uid == request.auth.uid;
+      allow update, delete: if ownsUid(resource.data.uid);
+    }
+
+    match /contas_kipo/{contaId} {
+      allow read: if ownsUid(resource.data.uid);
+      allow create: if signedIn() && request.resource.data.uid == request.auth.uid;
+      allow update, delete: if ownsUid(resource.data.uid);
+    }
+
+    match /eventos_financeiros/{eventoId} {
+      allow read: if ownsUid(resource.data.uid);
+      allow create: if signedIn() && request.resource.data.uid == request.auth.uid;
+      allow update, delete: if ownsUid(resource.data.uid);
+    }
+
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
